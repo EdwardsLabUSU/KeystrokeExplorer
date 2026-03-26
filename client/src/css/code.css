@@ -1,0 +1,17 @@
+.highlightHovered {
+    background-color: rgb(241, 127, 228);
+}
+
+.hightlightRow {
+    background-color: rgb(155, 237, 164);
+}
+
+.insert {
+    background-color: rgb(50, 221, 70);
+}
+
+.delete {
+    border-right: 0.1rem solid rgb(221, 76, 50);
+    padding-right: 0.5rem;
+}
+

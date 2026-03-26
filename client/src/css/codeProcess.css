@@ -1,0 +1,279 @@
+:root {
+    --ke-selected-color: #bbffbb;
+    --test-border: 3px dotted blue;
+    --test-border: none;
+}
+
+body {
+    margin: 10px;
+    height: 100%;
+}
+
+main {
+    display: grid;
+    border: var(--test-border);
+    padding: 3px;
+    grid-gap: 3px;
+    
+    grid-template: 
+    /*"nav head" min-content
+    "nav main" 1fr
+        / min-content 1fr;*/
+    "header header" min-content
+    "code codeprocchart" min-content
+    "code tchart" min-content
+    "code csv" 1fr
+/*        / min-content 1fr;*/
+        / 1fr 1fr;
+}
+
+header {
+    grid-area: header;
+    border: var(--test-border);
+    overflow: auto;
+/*    resize: horizontal;*/
+    
+    min-width: 120px;
+    max-width: 50vw;
+}
+
+code {
+    grid-area: code;
+    border: var(--test-border);
+    overflow: auto;
+/*    resize: horizontal;*/
+    
+    min-width: 400px;
+    max-width: 80vw;
+}
+
+codeprocchart {
+    grid-area: codeprocchart;
+    border: var(--test-border);
+    overflow: auto;
+/*    resize: vertical;
+    
+    min-height: min-content;
+    max-height: 200px;*/
+}
+
+tchart {
+    grid-area: tchart;
+    border: var(--test-border);
+    overflow: auto;
+/*    resize: vertical;
+    
+    min-height: min-content;
+    max-height: 200px;*/
+}
+
+csv {
+    grid-area: csv;
+    border: var(--test-border);
+}
+
+/***********************************************
+/* CodeMirror */
+/***********************************************/
+.cm-editor { border: 2px solid blue }
+.cm-editor.cm-focused { border: 2px solid blue }
+.CodeMirror {
+    border: 2px solid blue;
+    font-size: 10px;
+/*    height: auto;*/
+    height: 600px;
+}
+.CodeMirror-focused { border: 2px solid blue }
+/*.CodeMirror-selected  { background-color: blue !important; }
+.CodeMirror-selectedtext { color: white; }*/
+/*.styled-background { background-color: #ff7; }*/
+.styled-background { background-color: lightgreen; }
+/*.line-highlight { background-color: lightgreen; }*/
+.line-highlight { background-color: var(--ke-selected-color); }
+
+/***********************************************
+/* Tabs
+/***********************************************/
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    /*padding: 14px 16px;*/
+    padding: 6px 8px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+/*    display: none;*/
+    height: 560px;
+}
+/*.dgrid-header .dojoDndTarget .dgrid-cell {
+    display: table-cell;
+}*/
+/*.dgrid-header .dojoDndTarget .dgrid-cell {
+    display: block;
+}*/
+
+/***********************************************
+/* CodeProcess chart
+/***********************************************/
+rect {
+    fill: steelblue;
+    /*stroke: darkgray;*/
+    stroke: steelblue;
+    stroke-width: 1px;
+}
+
+rect#playbar {
+    fill: red;
+    /*stroke: darkgray;*/
+    stroke: red;
+    stroke-width: 1px;
+}
+
+rect#timelineplaybar {
+    fill: red;
+    /*stroke: darkgray;*/
+    stroke: red;
+    stroke-width: 1px;
+}
+
+rect#barsstart rect#barsend {
+    fill: red;
+    /*stroke: darkgray;*/
+    stroke: red;
+    stroke-width: 1px;
+}
+
+.barChart {
+    fill: steelblue;
+    stroke: darkgray;
+    stroke-width: 1px;
+}
+
+.lines {
+    stroke: steelblue;
+    fill: none
+}
+
+.areas {
+    stroke: none;
+    fill: steelblue
+}
+
+circle {
+    fill: steelblue;
+}
+
+.frame {
+    fill: none;
+    stroke: black;
+    stroke-width: 2px;
+}
+
+/***********************************************
+/* CSV
+/***********************************************/
+.dt-cell {
+    font-size: 9px;
+}
+
+.dt-cell__content {
+/*    padding: 0.5rem;*/
+/*    padding: var(--dt-spacer-2);*/
+    padding: 0.05rem;/*var(--dt-spacer-1);*/
+    border: 2px solid transparent;
+    border: 1px solid transparent;
+/*    border: var(--dt-focus-border-width) solid transparent;
+    height: 30%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;*/
+}
+
+.dgrid-selected-row {
+    background: #F2F5F9;
+}
+
+table.csv {
+    border: none;
+    border-collapse: collapse;
+    /*width: 800px;*/
+    width: 100%;
+    font-size: 9px;
+    font-family: "monospace", monospace;
+    text-align:center;
+    text-overflow: ellipsis;
+    table-layout: fixed;
+}
+td.csv {
+    text-align:center;
+    /*white-space: nowrap;*/
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+tr.selected {
+    background-color: var(--ke-selected-color);
+}
+
+tr.disabled {
+    color: gray;
+}
+
+
+textarea { width: 100%; }
+table.page {
+    width: 100%;
+    height: 600px;
+}
+tr.page {
+}
+td.page {
+    text-align: left;
+}
+
+td#tdcode {
+    width: 50%;
+}
+td#tdtabs {
+    width: 50%;
+}
+
+.chart { width: 100%; }
+/*#Charts { width: 100%; }*/
+#compilable {
+    float: left;
+    width:10px;
+    height: 200px;
+}
+#chart {
+    float: none;
+    overflow: hidden;
+    height: 200px;
+}
+#timelinesvg { height: 30px; }
+tr.selected { background-color:powderblue; }
+#compileError { background-color:red; }

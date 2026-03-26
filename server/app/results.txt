@@ -1,0 +1,2 @@
+keystrokes csv - 104 MB
+Json file - 244 MB (not accurate)
