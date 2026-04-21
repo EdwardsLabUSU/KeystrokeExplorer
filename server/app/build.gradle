@@ -16,6 +16,12 @@ plugins {
 
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -45,15 +51,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'parser.Application'
-}
-
-tasks.withType(JavaCompile) {
-    options.compilerArgs.addAll(["--enable-preview"])
-}
-
-tasks.withType(JavaExec) {
-    jvmArgs += '--enable-preview'
+    mainClass = 'parser.App'
 }
 
 generateGrammarSource {
@@ -87,8 +85,4 @@ task compile {
     tasks.findByName('compileJava').mustRunAfter 'generateGrammarSource'
     tasks.findByName('copy').mustRunAfter 'compileJava'
     tasks.findByName('build').mustRunAfter 'copy'
-}
-
-application {
-    applicationDefaultJvmArgs = ["--enable-preview"]
 }
