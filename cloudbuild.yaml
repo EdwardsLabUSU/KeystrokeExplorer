@@ -1,0 +1,9 @@
+steps:
+  - name: 'gradle:8-jdk21'
+    entrypoint: 'gradle'
+    args: ['build', '-x', 'test']
+    dir: 'server'
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/keystroke-explorer-parser', './server']
+images:
+  - 'gcr.io/$PROJECT_ID/keystroke-explorer-parser'
