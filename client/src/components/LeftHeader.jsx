@@ -5,9 +5,9 @@ export default function LeftHeader({subjectList, subject, onSubjectChange, assig
         <div className="flex flex-row mb-6 place-content-start">
             <div className="flex flex-col max-w-96 mr-6">
                 <label className="inline-block mb-2 text-md font-medium text-gray-900 text-left" htmlFor='file-selector'>
-                    Keystroke Upload:
+                    Data Upload:
                 </label>
-                <input id="file-selector" type="file" accept=".csv, .ps2, .log" onChange={handleFileChange}
+                <input id="file-selector" type="file" accept=".csv, .sqlite,.db" onChange={handleFileChange}
                 className="block text-sm text-gray-400 rounded-lg cursor-pointer bg-gray-50 focus:outline-none file:mr-2 file:py-2 file:px-2 file:border-0 file:text-sm file:font-semibold"/>
             
                 <div className="mt-6">

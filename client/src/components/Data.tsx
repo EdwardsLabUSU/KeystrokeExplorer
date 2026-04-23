@@ -3,6 +3,7 @@ import React from "react";
 import { DataFrame, IDataFrame } from "data-forge";
 import { parse } from 'papaparse';
 
+import { convertSqliteToDataFrame } from "../utils/sqliteToProgSnap2";
 import LeftHeader from "./LeftHeader";
 import RightOuterLayer from "./RightOuterLayer";
 import Code from "./Code";
@@ -74,25 +75,41 @@ export default function Data() {
     }
     
     const handleFileChange = async (event) => {
+        const file = event.target.files[0];
+        setLoading(true)
+
+        let editsDf: IDataFrame;
+        if (file.name.endsWith(".sqlite") || file.name.endsWith(".db")) {
+            editsDf = await handleSQLiteFileChange(file);
+        } else {
+            editsDf = await handleCSVFileChange(file);
+        }
+        console.log(editsDf)
+        setFilteredFile(editsDf);
+        setLoading(false)
+        setEstimatedLoadTime(null)
+
+        
+    };
+
+    const handleCSVFileChange = async (file) => {
         const csvConfig = {
             delimiter: ",",
             header: true,
             dynamicTyping: dynamicTypingFunction,
             skipEmptyLines: true,
         }
-        
-        const file = event.target.files[0];
         setEstimatedLoadTime(Math.floor(file.size * 1.4 / 10000000))
-        setLoading(true)
         const data = await file.text().then(data => parse(data, csvConfig));
-
         const df = new DataFrame(data.data)
         const editsDf = df.where(row => row.EventType == "File.Edit" || row.EventType == "X-FileInit")
-        setFilteredFile(editsDf);
-        setLoading(false)
-        setEstimatedLoadTime(null)
+        return editsDf;
     };
 
+    const handleSQLiteFileChange = async (file) => {
+        const editsDf = await convertSqliteToDataFrame(file, "assignment_0", "student");
+        return editsDf;
+    };
 
     useEffect(() => {
         AstBuilder.setup()
