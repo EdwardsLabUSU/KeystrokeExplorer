@@ -9,6 +9,8 @@ steps:
       - 'cd server && chmod +x gradlew && ./gradlew :App:build'
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/keystroke-explorer-a0/cloud-run-source-deploy/keystroke-explorer-parser', './server']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/keystroke-explorer-a0/cloud-run-source-deploy/keystroke-explorer-parser']
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['run', 'deploy', 'keystroke-explorer-parser', 
            '--image', 'us-central1-docker.pkg.dev/keystroke-explorer-a0/cloud-run-source-deploy/keystroke-explorer-parser',
