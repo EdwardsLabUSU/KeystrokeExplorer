@@ -245,7 +245,7 @@ export default function Data() {
         const postData = JSON.stringify({ data: selection.toCSV() });
         const signal = abortController.current.signal;
         try {
-            await fetch("http://localhost:3000/buildTrees", {
+            await fetch(`${import.meta.env.VITE_BACKEND_URL}/buildTrees`, {
                 method: "post",
                 headers: {
                   'Content-type':'text/csv',   
