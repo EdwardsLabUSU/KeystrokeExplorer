@@ -78,6 +78,20 @@ export default function Data() {
         const file = event.target.files[0];
         setLoading(true)
 
+        setSubject("")
+        setSubjectList([])
+        setAssignment("")
+        setAssignmentList([])
+        setTask("")
+        setTaskList([])
+        cachedSubjects.current = {}
+        setFilteredFile(undefined)
+        setCodeStates([])
+        edits.current = []
+        setSelectionDf(undefined)
+
+        
+
         let editsDf: IDataFrame;
         if (file.name.endsWith(".sqlite") || file.name.endsWith(".db")) {
             editsDf = await handleSQLiteFileChange(file);
@@ -125,7 +139,7 @@ export default function Data() {
     }, [filteredFile]);
     
     useEffect(() => {
-        if (filteredFile != null && filteredFile != undefined) {
+        if (filteredFile != null && filteredFile != undefined && subjectList.length > 0) {
             // console.log("setting subject")
             setSubject(subjectList[0]);
         }
@@ -255,8 +269,12 @@ export default function Data() {
                 signal,
               })
               .then(async result => {
-
+                    console.log(result.ok)
+                    if (!result.ok) {
+                        throw new Error("Something went wrong");
+                    }
                     const text = await result.text();
+                    console.log(text)
                     const parsed = JSON.parse(text);
                     return parsed;
                 })

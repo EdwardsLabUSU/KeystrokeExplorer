@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import tech.tablesaw.api.IntColumn;
 import tech.tablesaw.api.Table;
 
 import java.io.IOException;
@@ -101,6 +103,17 @@ public class Server {
         csvString = csvString.replaceAll(Pattern.quote("\\\\"), "\\\\");
 
         Table df = ts.readString(csvString);
+        df.intColumn("SourceLocation").setMissingTo(0);
+
+        if (!df.containsColumn("X-Compilable")) {
+//            long start = System.currentTimeMillis();
+            IntColumn compilableColumn = PythonSyntaxValidator.validateAllStates(df);
+            df.addColumns(compilableColumn);
+//            long end = System.currentTimeMillis();
+//            System.out.println("Time taken: " + (end - start) + "ms");
+
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CSV is missing required column: X-Compilable");
+        };
 
         Reconstruction reconstruction = new Reconstruction(df);
         Trees trees = new Trees(reconstruction.derivedTrees);
