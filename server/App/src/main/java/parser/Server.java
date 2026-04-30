@@ -17,6 +17,7 @@ import tech.tablesaw.api.Table;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.regex.Pattern;
+import java.util.zip.GZIPOutputStream;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -89,7 +90,7 @@ public class Server {
             @RequestBody String csvString,
             HttpServletResponse response
     ) throws IOException {
-
+        response.setHeader("Content-Encoding", "gzip");
         response.setContentType("application/json");
 
 
@@ -125,23 +126,42 @@ public class Server {
                 df.row(0).getString("CodeStateSection")
         );
 
-        JsonGenerator gen = new ObjectMapper()
-                .getFactory()
-                .createGenerator(response.getOutputStream());
+        try (GZIPOutputStream gzip = new GZIPOutputStream(response.getOutputStream());
+             JsonGenerator gen = new ObjectMapper()
+                     .getFactory()
+                     .createGenerator(gzip)) {
 
-        gen.writeStartObject();
-        gen.writeFieldName(key);
-        gen.writeStartArray();
+            gen.writeStartObject();
+            gen.writeFieldName(key);
+            gen.writeStartArray();
 
-        for (Node child : trees.trees) {
-            child.writeJson(gen);
+            for (Node child : trees.trees) {
+                child.writeJson(gen);
+            }
+
+            gen.writeEndArray();
+            gen.writeEndObject();
+            gen.flush();
         }
+//        GZIPOutputStream gzip = new GZIPOutputStream(response.getOutputStream());
 
-        gen.writeEndArray();
-        gen.writeEndObject();
-        gen.flush();
+//        JsonGenerator gen = new ObjectMapper()
+//                .getFactory()
+//                .createGenerator(response.getOutputStream());
+//
+//        gen.writeStartObject();
+//        gen.writeFieldName(key);
+//        gen.writeStartArray();
+//
+//        for (Node child : trees.trees) {
+//            child.writeJson(gen);
+//        }
+//
+//        gen.writeEndArray();
+//        gen.writeEndObject();
+//        gen.flush();
 
-
+//        gzip.finish();
     }
 
 }
